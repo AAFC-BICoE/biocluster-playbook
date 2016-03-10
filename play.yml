@@ -1,10 +1,31 @@
 ---
-- name: Configure grid engine
+- name: Configure grid engine frontend
   hosts: frontend
   tasks:
-  - name: Add parallel environment 1
+  - name: Copy slots-settings script to frontend
+    action: copy src=slots_list.sh dest=/tmp/slots_list.sh
+  - name: Set proper number of slots for each compute node in all.q
+    shell: for i in $(source /tmp/slots_list.sh); do sudo su - -c "qconf -mattr queue slots $i all.q"; done
+  - name: Copy over orte_pe file
+    action: copy src=orte_pe dest=/tmp/orte_pe
+  - name: Copy over smp_pe file
+    action: copy src=smp_pe dest=/tmp/smp_pe
+  - name: Add orte parallel environment
+    command: sudo su - -c "qconf -Ap /tmp/orte_pe"
+    ignore_errors: True
+  - name: Add smp parallel environment
+    command: sudo su - -c "qconf -Ap /tmp/smp_pe"
+    ignore_errors: True
+  - name: Add orte_pe to all.q
+    command: sudo su - -c "qconf -aattr queue pe_list orte all.q"
+    ignore_errors: True
+  - name: Add smp_pe to all.q
+    command: sudo su - -c "qconf -aattr queue pe_list smp all.q"
+    ignore_errors: True
+  - name: Cleanup
+    command: rm /tmp/orte_pe /tmp/smp_pe /tmp/slots_list.sh
 
-- name: Install MBB RPMs on worker nodes
+- name: Install MBB RPMs on compute nodes
   hosts: workers
   tasks:
   - name: Configure Rocks repository

@@ -1,0 +1,4 @@
+[Rocks-6.1]
+name=Rocks 6.1
+baseurl=<path_to_rocks_repo>
+enabled = 1
