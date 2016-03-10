@@ -3,13 +3,13 @@
   hosts: frontend
   tasks:
   - name: Copy slots-settings script to frontend
-    action: copy src=slots_list.sh dest=/tmp/slots_list.sh
+    action: copy src=files/slots_list.sh dest=/tmp/slots_list.sh
   - name: Set proper number of slots for each compute node in all.q
     shell: for i in $(source /tmp/slots_list.sh); do sudo su - -c "qconf -mattr queue slots $i all.q"; done
   - name: Copy over orte_pe file
-    action: copy src=orte_pe dest=/tmp/orte_pe
+    action: copy src=files/orte_pe dest=/tmp/orte_pe
   - name: Copy over smp_pe file
-    action: copy src=smp_pe dest=/tmp/smp_pe
+    action: copy src=files/smp_pe dest=/tmp/smp_pe
   - name: Add orte parallel environment
     command: sudo su - -c "qconf -Ap /tmp/orte_pe"
     ignore_errors: True
@@ -29,7 +29,7 @@
   hosts: workers
   tasks:
   - name: Configure Rocks repository
-    action: copy src=rocks.repo dest=/etc/yum.repos.d/rocks.repo owner=root
+    action: copy src=files/rocks.repo dest=/etc/yum.repos.d/rocks.repo owner=root
     become: yes
     become_user: root
   - name: Install MBB RPMs  
@@ -1257,7 +1257,7 @@
     become: yes
     become_user: root
   - name: Copy bioplus.sh into /etc/profile.d/
-    action: copy src=bioplus.sh dest=/etc/profile.d/bioplus.sh owner=root
+    action: copy src=files/bioplus.sh dest=/etc/profile.d/bioplus.sh owner=root
     become: yes
     become_user: root
   - name: Initial source of bioplus.sh
