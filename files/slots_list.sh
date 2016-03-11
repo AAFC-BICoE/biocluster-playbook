@@ -1,6 +1,6 @@
 #!/bin/bash
 
-exechosts=$(qconf -sel)
+mapfile -t exechosts < <(qconf -sel)
 slots=()
 n=0
 
