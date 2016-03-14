@@ -5,14 +5,14 @@ It will set the appropriate number of slots for each compute node in the main qu
 
 Before the playbook can be run, copies of ```hosts.sample``` and ```files/rocks.repo.sample``` should be made and customized.
 
-The repo we used as the source of the RPMs is [here](https://github.com/AAFC-MBB/MBB-Bio-Roll).
+One possible source of the RPMs is the [MBB-Bio-Roll](https://github.com/AAFC-MBB/MBB-Bio-Roll). A rocks repo can be made from it and then added to your customized ```files/rocks.repo``` file.
 
 ## CentOS Image Setup
 
 There are a few steps to configure a CentOS image appropriate for this playbook:
 
 * Start an instance of the latest CentOS 6 release from: http://cloud.centos.org/centos/6/images/
-* Download and install additional tools to enable resizing (From https://www.rdoproject.org/resources/creating-centos-and-fedora-images-ready-for-openstack/):
+* Download and install additional tools to enable resizing (Instructions from [rdoproject](https://www.rdoproject.org/resources/creating-centos-and-fedora-images-ready-for-openstack/)):
   ```
   yum install -y http://dl.fedoraproject.org/pub/epel/6/x86_64/epel-release-6-8.noarch.rpm
   yum -y distro-sync
