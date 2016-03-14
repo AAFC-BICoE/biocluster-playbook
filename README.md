@@ -1,4 +1,4 @@
-# biocluster-playbook
+# Biocluster Playbook
 This playbook was designed to run on a CentOS, grid engine, virtual cluster spawned by [Elasticluster](https://github.com/gc3-uzh-ch/elasticluster/tree/master/elasticluster).
 
 It will set the appropriate number of slots for each compute node in the main queue, add two parallel environments and then install a suite of RPM packages on the compute nodes.
