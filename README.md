@@ -46,6 +46,7 @@ There are a few steps required to configure a CentOS image for this playbook:
   ...
   skip_broken=1
   ```
+  
 ## Options for Running the Playbook
 
 ### Normal mode
