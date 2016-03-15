@@ -1,15 +1,15 @@
 ---
-- name: Configure grid engine frontend
-  hosts: frontend
+- name: Biocluster frontend Playbook
+  hosts: biocluster_frontend
   tasks:
-  - name: Copy slots-settings script to frontend
-    action: copy src=files/slots_list.sh dest=/tmp/slots_list.sh
+  - name: Copy slots-config script to frontend
+    action: copy src=biocluster/slots_list.sh dest=/tmp/slots_list.sh
   - name: Set proper number of slots for each compute node in all.q
     shell: for i in $(source /tmp/slots_list.sh); do sudo su - -c "qconf -mattr queue slots $i all.q"; done
   - name: Copy over orte_pe file
-    action: copy src=files/orte_pe dest=/tmp/orte_pe
+    action: copy src=biocluster/orte_pe dest=/tmp/orte_pe
   - name: Copy over smp_pe file
-    action: copy src=files/smp_pe dest=/tmp/smp_pe
+    action: copy src=biocluster/smp_pe dest=/tmp/smp_pe
   - name: Add orte parallel environment
     command: sudo su - -c "qconf -Ap /tmp/orte_pe"
     ignore_errors: True
@@ -25,15 +25,15 @@
   - name: Cleanup
     command: rm /tmp/orte_pe /tmp/smp_pe /tmp/slots_list.sh
 
-- name: Install MBB RPMs on compute nodes
-  hosts: workers
+- name: Install Biocluster RPMs
+  hosts: biocluster_compute
   tasks:
   - name: Configure Rocks repository
-    action: copy src=files/rocks.repo dest=/etc/yum.repos.d/rocks.repo owner=root
+    action: copy src=biocluster/rocks.repo dest=/etc/yum.repos.d/rocks.repo owner=root
     become: yes
     become_user: root
   - name: Install MBB RPMs  
-    yum: name={{ item }} conf_file=/etc/yum.conf disable_gpg_check=yes
+    yum: name={{ item }} disable_gpg_check=yes
     with_items:
       - 454-DataAnalysis.x86_64
       - Authen-NTLM.x86_64
@@ -47,7 +47,6 @@
       - ConsoleKit-libs.x86_64
       - Crypt-DES_PP.x86_64
       - DBIx-DBSchema.x86_64
-      - DBIx-DBStag.x86_64
       - Digest-Perl-MD4.x86_64
       - ELPH.x86_64
       - EMBOSS.x86_64
@@ -122,7 +121,6 @@
       - apr-util-ldap.x86_64
       - argtable2.x86_64
       - art.x86_64
-      - artemis.x86_64
       - aspell.x86_64
       - at.x86_64
       - atk.x86_64
@@ -159,7 +157,6 @@
       - blat.x86_64
       - blimps.x86_64
       - boost.x86_64
-      - boost-chrono.x86_64
       - boost-date-time.x86_64
       - boost-devel.x86_64
       - boost-doc.x86_64
@@ -200,7 +197,6 @@
       - cfitsio-static.x86_64
       - checkpolicy.x86_64
       - chkconfig.x86_64
-      - circos.x86_64
       - cloog-ppl.x86_64
       - clustal-omega.x86_64
       - clustalw.x86_64
@@ -228,7 +224,6 @@
       - crontabs.noarch
       - cryptsetup-luks.x86_64
       - cryptsetup-luks-libs.x86_64
-      - cufflinks.x86_64
       - cups.x86_64
       - cups-libs.x86_64
       - curl.x86_64
@@ -375,7 +370,6 @@
       - gnuplot-common.x86_64
       - gnutls.x86_64
       - gnutls-utils.x86_64
-      - go-db-perl.x86_64
       - go-perl.x86_64
       - gpgme.x86_64
       - gpm.x86_64
@@ -384,7 +378,6 @@
       - graphviz-tcl.x86_64
       - grep.x86_64
       - groff.x86_64
-      - gromacs.x86_64
       - grub.x86_64
       - grubby.x86_64
       - gsl.x86_64
@@ -402,8 +395,6 @@
       - hal.x86_64
       - hal-info.noarch
       - hal-libs.x86_64
-      - hdf5.x86_64
-      - hdf5-devel.x86_64
       - hdf5-static.x86_64
       - hdparm.x86_64
       - hesiod.x86_64
@@ -654,7 +645,6 @@
       - mgetty.x86_64
       - microcode_ctl.x86_64
       - mingetty.x86_64
-      - mira.x86_64
       - misa.x86_64
       - mkbootdisk.x86_64
       - mlocate.x86_64
@@ -779,7 +769,6 @@
       - opt-perl-IO-String.noarch
       - opt-perl-IO-stringy.noarch
       - opt-perl-IPC-Run.noarch
-      - opt-perl-Inline.noarch
       - opt-perl-LWP-MediaTypes.noarch
       - opt-perl-List-MoreUtils.x86_64
       - opt-perl-Log-Dispatch.noarch
@@ -807,17 +796,9 @@
       - opt-perl-Package-Stash.noarch
       - opt-perl-Package-Stash-XS.x86_64
       - opt-perl-Panseq.noarch
-      - opt-perl-Panseq-Blast.noarch
-      - opt-perl-Panseq-FileInteraction.noarch
-      - opt-perl-Panseq-LociSelector.noarch
       - opt-perl-Panseq-Logging.noarch
-      - opt-perl-Panseq-MSA.noarch
-      - opt-perl-Panseq-Mummer.noarch
       - opt-perl-Panseq-Muscle.noarch
-      - opt-perl-Panseq-NovelRegion.noarch
-      - opt-perl-Panseq-Pipeline.noarch
       - opt-perl-Panseq-TreeBuilding.noarch
-      - opt-perl-Panseq-Visual.noarch
       - opt-perl-Parallel-ForkManager.noarch
       - opt-perl-Params-Util.x86_64
       - opt-perl-Params-Validate.x86_64
@@ -895,7 +876,6 @@
       - pam_pkcs11.x86_64
       - pango.x86_64
       - pango-devel.x86_64
-      - papi.x86_64
       - parted.x86_64
       - passwd.x86_64
       - patch.x86_64
@@ -993,7 +973,6 @@
       - ppp.x86_64
       - prelink.x86_64
       - primer3.x86_64
-      - prinseq-lite.x86_64
       - procmail.x86_64
       - procps.x86_64
       - proj.x86_64
@@ -1092,7 +1071,6 @@
       - sg3_utils-libs.x86_64
       - sga.x86_64
       - sgml-common.noarch
-      - sgp2.x86_64
       - sgpio.x86_64
       - shadow-utils.x86_64
       - shared-mime-info.x86_64
@@ -1103,7 +1081,6 @@
       - slang.x86_64
       - smalt.x86_64
       - smartmontools.x86_64
-      - smbios-utils-bin.x86_64
       - smp_utils.x86_64
       - snap.x86_64
       - snappy.x86_64
@@ -1114,29 +1091,15 @@
       - splitstree.x86_64
       - spreadsheet-xlsx.x86_64
       - srvadmin-argtable2.x86_64
-      - srvadmin-deng.x86_64
       - srvadmin-hapi.x86_64
       - srvadmin-idrac-ivmcli.x86_64
       - srvadmin-idrac-vmcli.x86_64
-      - srvadmin-idrac7.x86_64
-      - srvadmin-idracadm.x86_64
-      - srvadmin-idracadm7.x86_64
-      - srvadmin-isvc.x86_64
-      - srvadmin-jre.x86_64
-      - srvadmin-omacore.x86_64
-      - srvadmin-omcommon.x86_64
-      - srvadmin-omilcore.x86_64
-      - srvadmin-rac-components.x86_64
       - srvadmin-racadm4.x86_64
-      - srvadmin-racdrsc.x86_64
       - srvadmin-realssd.x86_64
       - srvadmin-smcommon.x86_64
-      - srvadmin-smweb.x86_64
-      - srvadmin-storage.x86_64
       - srvadmin-storelib.x86_64
       - srvadmin-storelib-sysfs.x86_64
       - srvadmin-sysfsutils.x86_64
-      - srvadmin-tomcat.x86_64
       - srvadmin-xmlsup.x86_64
       - stunnel.x86_64
       - subversion.x86_64
@@ -1188,7 +1151,6 @@
       - tmhmm.x86_64
       - tmpwatch.x86_64
       - tomcat-connectors.x86_64
-      - tophat.x86_64
       - traceroute.x86_64
       - transdecoder.x86_64
       - tree.x86_64
@@ -1227,8 +1189,6 @@
       - words.noarch
       - wpa_supplicant.x86_64
       - wxBase.x86_64
-      - wxGTK.x86_64
-      - wxGTK-devel.x86_64
       - wxGTK-gl.x86_64
       - wxGTK-media.x86_64
       - wxPython.x86_64
@@ -1257,8 +1217,6 @@
     become: yes
     become_user: root
   - name: Copy bioplus.sh into /etc/profile.d/
-    action: copy src=files/bioplus.sh dest=/etc/profile.d/bioplus.sh owner=root
+    action: copy src=biocluster/bioplus.sh dest=/etc/profile.d/bioplus.sh owner=root
     become: yes
     become_user: root
-  - name: Initial source of bioplus.sh
-    shell: source /etc/profile.d/bioplus.sh
