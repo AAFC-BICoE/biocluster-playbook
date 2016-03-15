@@ -41,6 +41,8 @@ There are a few steps required to configure a CentOS image for this playbook:
   
 ## Options for Running the Playbook
 
+**Note**: For the frontend node to have SSH access to the compute nodes, the latter will have to first be restarted.
+
 ### Normal Mode
 
 The playbook can be run normally by creating a ```hosts``` file such as:
