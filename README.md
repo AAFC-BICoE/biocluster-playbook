@@ -41,7 +41,7 @@ There are a few steps required to configure a CentOS image for this playbook:
   
 ## Options for Running the Playbook
 
-### Normal mode
+### Normal Mode
 
 The playbook can be run normally by creating a ```hosts``` file such as:
 ```
@@ -54,7 +54,7 @@ The playbook can be run normally by creating a ```hosts``` file such as:
 ```
 and executing ```ansible-playbook -i hosts biocluster.yml```.
 
-### Elasticluster mode
+### Elasticluster Mode
 
 Another option is to include it directly in Elasticluster's setup process.
 
