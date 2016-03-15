@@ -41,7 +41,7 @@ There are a few steps required to configure a CentOS image for this playbook:
   
 ## Options for Running the Playbook
 
-**Note**: For the frontend node to have SSH access to the compute nodes, the latter will have to first be restarted.
+**Note**: For the frontend node to have SSH access to the compute nodes, which is required to set the slots properly, the compute nodes will first have to be restarted.
 
 ### Normal Mode
 
