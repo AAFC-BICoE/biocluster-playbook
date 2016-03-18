@@ -5,11 +5,11 @@ It will set the appropriate number of slots for each compute node in the main qu
 
 Before the playbook can be run, a copy of ```biocluster/rocks.repo.sample``` should be made and customized.
 
-One possible source of the RPMs is the [MBB-Bio-Roll](https://github.com/AAFC-MBB/MBB-Bio-Roll). A rocks repo can be made from it and then added to your customized ```biocluster/rocks.repo``` file.
+One possible source of the RPMs is the [MBB-Bio-Roll](https://github.com/AAFC-MBB/MBB-Bio-Roll). A rocks repository can be made from it and then added to your customized ```biocluster/rocks.repo``` file.
 
 ## CentOS Image Setup
 
-There are a few steps required to configure a CentOS image for this playbook:
+There are a few steps required to configure a CentOS image to be used with Elasticluster and this playbook:
 
 * Start an instance of the latest CentOS 6 release from: http://cloud.centos.org/centos/6/images/
 * Download and install additional tools to enable image resizing (Instructions from [rdoproject](https://www.rdoproject.org/resources/creating-centos-and-fedora-images-ready-for-openstack/)):
@@ -45,7 +45,7 @@ There are a few steps required to configure a CentOS image for this playbook:
 
 ### Normal Mode
 
-The playbook can be run normally by creating a ```hosts``` file such as:
+The playbook can be run normally by first setting up your Elasticluster config file using [these instructions](http://elasticluster.readthedocs.org/en/latest/configure.html), launching a CentOS cluster, creating a ```hosts``` file such as:
 ```
 [biocluster_frontend]
 <ip_address_1> ansible_ssh_user=centos ansible_ssh_private_key_file=<ssh_key>
@@ -54,14 +54,15 @@ The playbook can be run normally by creating a ```hosts``` file such as:
 <ip_address_2> ansible_ssh_user=centos ansible_ssh_private_key_file=<ssh_key>
 ...
 ```
-and executing ```ansible-playbook -i hosts biocluster.yml```.
+and then executing: ```ansible-playbook -i hosts biocluster.yml```.
 
 ### Elasticluster Mode
 
 Another option is to include it directly in Elasticluster's setup process.
 
-After installing Elasticluster, edit ```elasticluster/providers/ansible-playbooks/site.yml``` and include the Biocluster role:
+After [installing Elasticluster](http://elasticluster.readthedocs.org/en/latest/install.html), edit ```elasticluster/providers/ansible-playbooks/site.yml``` and include the Biocluster role:
 ```
+...
 - include: roles/biocluster.yml
 ```
 
