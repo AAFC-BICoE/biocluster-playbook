@@ -22,6 +22,14 @@
   - name: Add smp_pe to all.q
     command: sudo su - -c "qconf -aattr queue pe_list smp all.q"
     ignore_errors: True
+  - name: Add script for adding users
+    action: copy src=biocluster/add-user.sh dest=/usr/share/gridengine/default/common/add-user.sh owner=sgeadmin group=sgeadmin
+    become: yes
+    become_user: root
+  - name: Add script for deleting users
+    action: copy src=biocluster/del-user.sh dest=/usr/share/gridengine/default/common/del-user.sh owner=sgeadmin group=sgeadmin
+    become: yes
+    become_user: root
   - name: Cleanup
     command: rm /tmp/orte_pe /tmp/smp_pe /tmp/slots_list.sh
 
