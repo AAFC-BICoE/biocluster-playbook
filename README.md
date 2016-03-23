@@ -41,7 +41,7 @@ There are a few steps required to configure a CentOS image to be used with Elast
 
 ### For a cluster that is already deployed:
 
-> **NOTE**: Please confirm that the frontend node has SSH access to the compute nodes first. 
+**NOTE**: Please confirm that the frontend node has SSH access to the compute nodes first. 
 
 Create a ```hosts``` file with the access information required by Ansible for all the nodes of the cluster:
 ```
