@@ -31,11 +31,11 @@ There are a few steps required to configure a CentOS image to be used with Elast
     - resolv-conf
     ```
 
-* Comment out the line in ```/etc/sudoers``` that requires tty (So Ansible can use SSH pipelining):
+* Disable requiretty for the centos user so Elasticluster's playbooks can run:
 
   ```
   ...
-  # Defaults        requiretty
+  Defaults:centos        !requiretty
   ...
   ```
   
