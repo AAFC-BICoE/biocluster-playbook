@@ -1,5 +1,6 @@
 #!bin/bash
 
+# TODO: Update to use elasticluster to generate host list rather than qconf
 mapfile -t exechosts < <(qconf -sel)
 username=$1
 passwd=$(getent passwd $username)
