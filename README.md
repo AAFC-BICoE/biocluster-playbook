@@ -1,7 +1,7 @@
 # Biocluster Playbook
 This playbook was designed to run on a CentOS, Grid Engine, virtual cluster spawned by [Elasticluster](https://github.com/gc3-uzh-ch/elasticluster/tree/master/elasticluster).
 
-It will set the appropriate number of slots for each compute nodes in the all.q queue, add two parallel environments (SMP and ORTE) and then install a suite of bioinformatics RPM packages on the compute nodes.
+It will set the appropriate number of slots for each compute node in the all.q queue, add two parallel environments (SMP and ORTE), and  install a suite of bioinformatics RPM packages on the compute nodes.
 
 Before the playbook can be run, a copy of ```biocluster/rocks.repo.sample``` should be made and customized. One possible source of the RPMs is the [MBB-Bio-Roll](https://github.com/AAFC-MBB/MBB-Bio-Roll). A rocks repository can be made from it and then added to your customized ```biocluster/rocks.repo``` file.
 
@@ -52,9 +52,11 @@ Create a ```hosts``` file with the access information required by Ansible for al
 <ip_address_2> ansible_ssh_user=centos ansible_ssh_private_key_file=<ssh_key>
 <ip_address_3 ...
 ```
-and then execute: ```ansible-playbook -i hosts biocluster.yml```.
+Where ```<ssh_key>``` the public key of the one used to create the cluster. Then execute: ```ansible-playbook -i hosts biocluster.yml```.
 
 ### For integrating this playbook into Elasticluster:
+
+These instructions will allow this playbook to be run during a cluster setup with Elasticluster by adding biocluster frontend and compute groups and copying the appropriate files into the Elasticluster directory.
 
 After [installing Elasticluster](http://elasticluster.readthedocs.org/en/latest/install.html), edit ```elasticluster/providers/ansible-playbooks/site.yml``` and include the Biocluster role:
 ```
