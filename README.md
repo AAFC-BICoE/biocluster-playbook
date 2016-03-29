@@ -74,3 +74,7 @@ Once that is done, ```biocluster_frontend``` and ```biocluster_compute``` can be
  compute_groups=gridengine_clients,ganglia_monitor,biocluster_compute
  ```
  And this playbook will be included in the execution of  ```elasticluster setup```.
+
+## Scripts for User Management
+
+This playbook will also add scripts to the headnode of the cluster that can add and remove users cluster-wide. They will be copied to ```/usr/share/gridengine/default/common/```. For either one just provide it with the username as an argument.
