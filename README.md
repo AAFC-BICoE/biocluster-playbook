@@ -29,7 +29,7 @@ There are a few steps required to configure a CentOS image to be used with Elast
     - resolv-conf
     ```
 
-* Disable requiretty for the centos user so Elasticluster's playbooks can run:
+* Disable requiretty in `/etc/sudoers` for the centos user so Elasticluster's playbooks can run:
 
   ```
   ...
